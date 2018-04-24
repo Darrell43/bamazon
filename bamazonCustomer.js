@@ -10,6 +10,7 @@
 // );
 
 var mysql = require("mysql");
+var inquirer = require("inquirer");
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -35,9 +36,19 @@ function queryAllItems() {
       console.log(res[i].item_id + " | " + res[i].tools + " | " + res[i].price + " | " + res[i].stockQuantity);
     }
     console.log("-----------------------------------");
+    start();
   });
+
 }
 
+function start() {
+  inquirer.prompt({
+      name: "item_id",
+      type: "rawlist",
+      message: "What is the ID of the product you want?",
+      choices: ["POST", "BID"]
+    })
+}
 // The app should then prompt users with two messages.
 
 // The first should ask them the ID of the product they would like to buy.
@@ -51,19 +62,4 @@ function queryAllItems() {
 // Once the update goes through, show the customer the total cost of their purchase.
 
 // function which prompts the user for what action they should take
-function start() {
-  inquirer
-    .prompt({
-      name: "item_id",
-      type: "input",
-      message: "What is the ID of the product they would like to buy?",
-      choices: function() {
-        var choiceArray = [];
-        for (var i = 0; i < res.length; i++) {
-          choiceArray.push(results[i].item_id);
-        }
-        return choiceArray;
-      }
-    })
-}
 
